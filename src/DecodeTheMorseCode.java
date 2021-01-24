@@ -51,15 +51,15 @@ public class DecodeTheMorseCode {
             StringBuilder word = new StringBuilder();
 
             for ( String letter:morseLetters){
-                String letterDecoded = MorseCode.get(letter);
+                /*String letterDecoded = MorseCode.get(letter);
                 if(letterDecoded != null){
                     word.append(letterDecoded);
-                }
+                }*/
             }
 
             result.add(word);
         }
         return result.toString().trim();
     }
-    
+
 }
