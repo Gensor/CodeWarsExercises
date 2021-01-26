@@ -1,3 +1,5 @@
+package kyu_7;
+
 public class FindTheNextPerfectSquare {
 
     /*

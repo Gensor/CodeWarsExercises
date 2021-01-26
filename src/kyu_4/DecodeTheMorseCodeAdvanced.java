@@ -1,3 +1,8 @@
+package kyu_4;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class DecodeTheMorseCodeAdvanced {
     /*
         In this kata you have to write a Morse code decoder for wired electrical telegraph.
@@ -40,7 +45,33 @@ public class DecodeTheMorseCodeAdvanced {
      */
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        final String heyjude = "1100110011001100000011000000111111001100111111001111110000000000000011001111110011111100111111000000110011001111110000001111110011001100000011";
+
+        System.out.println(decodeBits(heyjude));
+
+    }
+
+    public static String decodeBits(String bits) {
+
+        bits = bits.replaceAll("(^0+)(\\d*.1)(0+$)","$2");
+
+        int sizeOfSignal = Arrays.stream(bits.replaceAll("(1|0+)((?!\\1|$))", "$1;$2")
+                .split(";"))
+                .min(Comparator.comparingInt(String::length))
+                .get()
+                .length();
+
+        return bits.replaceAll("[1]{"+sizeOfSignal*3+"}","-")
+                .replaceAll("[1]{"+sizeOfSignal+"}",".")
+                .replaceAll("[0]{"+7*sizeOfSignal+"}","   ")
+                .replaceAll("[0]{"+sizeOfSignal*3+"}"," ")
+                .replaceAll("[0]{"+sizeOfSignal+"}","")
+                .trim();
+    }
+
+    public static String decodeMorse(String morseCode) {
+        //return MorseCode.get(morseCode);
+        return "";
     }
 
 }

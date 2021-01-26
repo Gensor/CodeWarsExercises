@@ -1,3 +1,5 @@
+package kyu_6;
+
 import java.util.StringJoiner;
 
 public class DecodeTheMorseCode {
