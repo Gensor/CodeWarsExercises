@@ -25,8 +25,8 @@ public class CountingDuplicates {
 
     public static int duplicateCount(String text) {
 
-        long result = Arrays.stream(text.replaceAll("([a-zA-Z0-9])([a-zA-Z0-9]|$)","$1;$2;").toLowerCase()
-                .split(";"))
+        long result = Arrays.stream(text.toLowerCase()
+                .split(""))
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()))
                 .values().stream().filter(i -> i > 1).count();
 
