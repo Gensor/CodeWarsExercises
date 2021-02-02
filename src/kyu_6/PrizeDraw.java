@@ -1,9 +1,8 @@
 package kyu_6;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,10 +30,9 @@ public class PrizeDraw {
      */
 
     public static void main(String[] args) {
-        System.out.println(nthRank("Addison,Jayden,Sofia,Michael,Andrew,Lily,Benjamin",new Integer[]{4, 2, 1, 4, 3, 1, 2},4));
+        System.out.println(nthRank("Elijah,Chloe,Elizabeth,Matthew,Natalie,Jayden",new Integer[]{1, 3, 5, 5, 3, 6},2));
 
     }
-//addison = 1 + 4+ 4+ 9 +19 +15 +14
 
     public static String nthRank(String st, Integer[] we, int n) {
         if(st.equals(""))
@@ -45,22 +43,36 @@ public class PrizeDraw {
         if(names.length < n)
             return "Not enough participants";
 
-        int[] results = Arrays.stream(names).map(String::chars)
-                    .map(x -> x.mapToObj(Character::toLowerCase)
-                            .mapToInt(s->s%96)
-                            .sum())
+        //for each name: take letters from name, make them lower case, convert them to asci number % 96 and count them
+        int[] results = Arrays.stream(names)
+                .map(String::chars)
+                .map(x -> x.mapToObj(Character::toLowerCase)
+                        .mapToInt(s->s%96)
+                        .sum())
                 .mapToInt(x -> x)
                 .toArray();
 
-            for (int i = 0 ; i < results.length ; i++){
-                results[i] = (results[i]+names[i].length())*we[i];
-            }
-
-        Map<String , Integer> resulto = IntStream.range(0, names.length)
+        for (int i = 0 ; i < results.length ; i++){
+            results[i] = (results[i]+names[i].length())*we[i];
+        }
+        //create map from names and values
+        Map<String , Integer> mapOfNamesAndValues = IntStream.range(0, names.length)
                 .boxed()
                 .collect(Collectors.toMap( i -> names[i], i -> results[i]));
-        Collections.sort(ha);
-        return "";
+
+        //sort map by keys first then by value;
+        mapOfNamesAndValues = mapOfNamesAndValues.entrySet().stream()
+                .sorted((k1, k2) -> -k2.getKey().compareTo(k1.getKey()))
+                .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        //get a keys as the array
+        Object[] keys = mapOfNamesAndValues.keySet().toArray();
+
+        return keys[n-1].toString();
     }
 
 
