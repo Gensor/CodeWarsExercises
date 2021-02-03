@@ -39,13 +39,18 @@ public class HumanReadableDurationFormat {
     public static String formatDuration(int seconds) {
         if(seconds < 0)return "";
         if(seconds == 0)return "now";
+        final int second = seconds%60;
+        final int minute = (seconds/60)%60;
+        final int hour = (seconds/3600)%24;
+        final int day = (seconds/86400)%365;
+        final int year = seconds/31536000;
 
         LinkedHashMap<String,Integer> timeMap = new LinkedHashMap<>();
-            timeMap.put((seconds/31536000) > 1 ? "years" : "year", (seconds/31536000));
-            timeMap.put(((seconds/86400)%365) > 1 ? "days" : "day", (seconds/86400)%365);
-            timeMap.put(((seconds/3600)%24) > 1 ? "hours" : "hour", ((seconds/3600)%60));
-            timeMap.put(((seconds/60)%60) > 1 ? "minutes" : "minute", ((seconds/60)%60));
-            timeMap.put((seconds%60) > 1 ? "seconds" : "second", (seconds%60));
+            timeMap.put(year > 1 ? "years" : "year", year);
+            timeMap.put(day > 1 ? "days" : "day", day);
+            timeMap.put(hour > 1 ? "hours" : "hour", hour);
+            timeMap.put(minute > 1 ? "minutes" : "minute", minute);
+            timeMap.put(second > 1 ? "seconds" : "second", second);
 
         List<String> notNullResultValues = timeMap.entrySet().stream()
                 .filter(x -> x.getValue() > 0)
