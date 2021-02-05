@@ -1,10 +1,8 @@
 package kyu_4;
 
-import java.text.Collator;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MostFrequentlyUsedWordsInText {
     /*
@@ -49,16 +47,16 @@ public class MostFrequentlyUsedWordsInText {
         List<String> words = Arrays.asList(s.split("\\s+"));
 
         Map<String, Long> result = words.stream()
-                    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         return result.entrySet().stream()
-                    .sorted(Map.Entry.comparingByKey())
-                    .sorted(Map.Entry.<String,Long>comparingByValue().reversed())
-                    .limit(3)
-                    .map(Map.Entry::getKey)
-                    .filter(x -> !x.isEmpty())
-                    .map(String::toLowerCase)
-                    .collect(Collectors.toList());
+                .sorted(Map.Entry.comparingByKey())
+                .sorted(Map.Entry.<String,Long>comparingByValue().reversed())
+                .limit(3)
+                .map(Map.Entry::getKey)
+                .filter(x -> !x.isEmpty())
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
     }
 
 }
